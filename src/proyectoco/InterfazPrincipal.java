@@ -4,13 +4,15 @@ import javax.swing.JOptionPane;
 import lpsolve.*;
 
 public class InterfazPrincipal extends javax.swing.JFrame {
-    
+
+    Archivo archivo;
     Lector lector;
-    
+
     public InterfazPrincipal() {
         initComponents();
         this.setLocationRelativeTo(null);
-         lector = new Lector();
+        archivo = new Archivo();
+        lector = new Lector();
     }
 
     /**
@@ -143,12 +145,17 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSalirActionPerformed
-        // TODO add your handling code here:
+
         System.exit(0);
     }//GEN-LAST:event_jMenuItemSalirActionPerformed
 
     private void jMenuItemSeleccionarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSeleccionarArchivoActionPerformed
-        // TODO add your handling code here:
+
+        String nombreArchivo = archivo.obtenerNombreArchivo();
+
+        if (!nombreArchivo.equals("")) {
+            jTextFieldRutaArchivo.setText(nombreArchivo);
+        }
     }//GEN-LAST:event_jMenuItemSeleccionarArchivoActionPerformed
 
     private void botonSolucionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSolucionarActionPerformed
@@ -157,7 +164,6 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
             lector.setArchivo(jTextFieldRutaArchivo.getText());
             lector.validarEntrada();
-
 
         } else {
             JOptionPane.showMessageDialog(rootPane, "No se puede generar una salida sin haber escogido un archivo");

@@ -11,12 +11,30 @@ public class Archivo extends JFrame {
     public Archivo() {
     }
 
+    public String obtenerNombreArchivo() {
+
+        String rutaAbsolutaArchivo = "";
+
+        try {
+
+            File nombre = obtenerArchivo();
+            if (nombre.exists()) {
+                rutaAbsolutaArchivo = nombre.getAbsolutePath();
+            }
+
+        } catch (Exception e) {
+        }
+
+        return rutaAbsolutaArchivo;
+
+    } // fin del método obtenerRuta
+
     private File obtenerArchivo() {
-      
+
         JFileChooser selectorArchivos = new JFileChooser();
 
         FileNameExtensionFilter filtroImagen = new FileNameExtensionFilter("txt", "txt");
-        
+
         selectorArchivos.setFileFilter(filtroImagen);
         selectorArchivos.setAcceptAllFileFilterUsed(false);
 
@@ -25,7 +43,6 @@ public class Archivo extends JFrame {
         selectorArchivos.setDialogTitle("Escoger Archivo");
 
         int resultado = selectorArchivos.showOpenDialog(this);
-
 
         if (resultado == JFileChooser.CANCEL_OPTION) {
             dispose();
@@ -47,23 +64,5 @@ public class Archivo extends JFrame {
         return nombreArchivo;
 
     } // fin del método obtenerArchivo
-
-    public String obtenerNombreArchivo() {
-
-        String rutaAbsolutaArchivo = "";
-
-        try {
-            
-            File nombre = obtenerArchivo();            
-            if (nombre.exists()) {
-                rutaAbsolutaArchivo = nombre.getAbsolutePath();
-            }
-
-        } catch (Exception e) {
-        }
-
-        return rutaAbsolutaArchivo;
-
-    } // fin del método obtenerRuta
 } // fin de la clase 
 
