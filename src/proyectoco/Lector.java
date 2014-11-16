@@ -12,8 +12,15 @@ public class Lector {
     }
 
     public void reiniciarTodo() {
-
         archivo = null;
+    }
+    
+    //En este método se devolverá la entrada para mostrar en el JTextArea, 
+    //con el fin de mostrar e identificar textualmente cada uno de las partes
+    //que componen la entrada del archivo
+    public String devolverEntrada(){
+    
+        return "";
     }
 
     public void validarEntrada() {
