@@ -14,6 +14,17 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         archivo = new Archivo();
         lector = new Lector();
+        //borrar esto después
+        jTextFieldRutaArchivo.setText("/home/juan/proyectoCO/prueba1.txt");
+        lector.setArchivo(jTextFieldRutaArchivo.getText());
+        tsm = lector.extraerInformacionTSM();
+        
+        String arreglo = tsm.imprimirArreglo();
+            String matrizVentaTiempo = tsm.imprimirMatriz("Ventanas de Tiempo", tsm.getMatrizVentanasDeTiempo(), tsm.getCantLugares(), 2);
+            String matrizDistancias = tsm.imprimirMatriz("Distancias", tsm.getMatrizDistancias(), tsm.getCantLugares(), tsm.getCantLugares());
+        
+        jTextAreaEntrada.setText(arreglo + matrizVentaTiempo + matrizDistancias);
+        // Borrar hasta aquí
     }
 
     @SuppressWarnings("unchecked")
@@ -166,15 +177,18 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
             //para Mostrar en jTextArea
             jTextAreaEntrada.setText(arreglo + matrizVentaTiempo + matrizDistancias);
+
         }
     }//GEN-LAST:event_jMenuItemSeleccionarArchivoActionPerformed
 
     private void botonSolucionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSolucionarActionPerformed
 
         if (!jTextFieldRutaArchivo.getText().equals("")) {
-            
+
             //aquí va la solución que propongamos
-            
+            LpSolve lp = new LpSolve(tsm);
+            lp.imprimir(lp.lpFormatContructor());
+
         } else {
             JOptionPane.showMessageDialog(rootPane, "No se puede generar una salida sin haber escogido un archivo");
         }
