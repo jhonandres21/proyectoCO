@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package proyectoco;
 
 /**
@@ -48,21 +43,40 @@ public class TSM {
         this.matrizDistancias = matrizDistancias;
     }
 
-    public void imprimirArreglo() {
-        System.out.println("Arreglo Tiempo de Servicio:");
+    public String imprimirArreglo() {
+
+        String arreglo = "Arreglo Tiempo de Servicio: \n";
+        //System.out.println("Arreglo Tiempo de Servicio:");
+
         for (int i = 0; i < arregloTiempoDeServicio.length; i++) {
-            System.out.print(arregloTiempoDeServicio[i] + " ");
+            //System.out.print(arregloTiempoDeServicio[i] + " ");
+            arreglo += arregloTiempoDeServicio[i] + "  ";
         }
+
+        arreglo += "\n\n";
+        //System.out.println();
+
+        return arreglo;
     }
 
-    public void imprimirMatriz(String nombre, double[][] matriz, int filas, int columnas) {
-        System.out.println("Imprimiendo matriz " + nombre);
+    public String imprimirMatriz(String nombre, double[][] matriz, int filas, int columnas) {
+
+        String stringmatriz = "Matriz " + nombre + ": \n";
+        //System.out.println("Imprimiendo matriz " + nombre);
+
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
-                System.out.print(matriz[i][j] + " ");
-            }
-            System.out.println();
-        }
-    }
+                //System.out.print(matriz[i][j] + " ");
 
+                stringmatriz += String.format("%12s", matriz[i][j]);
+                //stringmatriz += matriz[i][j] + "       ";
+            }
+            //System.out.println();
+            stringmatriz += "\n";
+        }
+
+        stringmatriz += "\n";
+
+        return stringmatriz;
+    }
 }

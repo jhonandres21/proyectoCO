@@ -113,11 +113,11 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                                     .addComponent(botonSolucionar))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
                                 .addGap(194, 194, 194)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
                                 .addGap(285, 285, 285))
                             .addComponent(jScrollPane2))))
                 .addContainerGap())
@@ -135,7 +135,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
                     .addComponent(jLabel3))
                 .addGap(3, 3, 3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(botonSolucionar)
@@ -156,20 +156,25 @@ public class InterfazPrincipal extends javax.swing.JFrame {
 
         if (!nombreArchivo.equals("")) {
             jTextFieldRutaArchivo.setText(nombreArchivo);
+
+            lector.setArchivo(jTextFieldRutaArchivo.getText());
+            tsm = lector.extraerInformacionTSM();
+
+            String arreglo = tsm.imprimirArreglo();
+            String matrizVentaTiempo = tsm.imprimirMatriz("Ventanas de Tiempo", tsm.getMatrizVentanasDeTiempo(), tsm.getCantLugares(), 2);
+            String matrizDistancias = tsm.imprimirMatriz("Distancias", tsm.getMatrizDistancias(), tsm.getCantLugares(), tsm.getCantLugares());
+
+            //para Mostrar en jTextArea
+            jTextAreaEntrada.setText(arreglo + matrizVentaTiempo + matrizDistancias);
         }
     }//GEN-LAST:event_jMenuItemSeleccionarArchivoActionPerformed
 
     private void botonSolucionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSolucionarActionPerformed
 
         if (!jTextFieldRutaArchivo.getText().equals("")) {
-
-            lector.setArchivo(jTextFieldRutaArchivo.getText());
-            tsm = lector.extraerInformacionTSM();
             
-            tsm.imprimirArreglo();
-            tsm.imprimirMatriz("Ventanas de Tiempo", tsm.getMatrizVentanasDeTiempo(), tsm.getCantLugares(), 2);
-            System.out.println();
-            tsm.imprimirMatriz("Distancias", tsm.getMatrizDistancias(), tsm.getCantLugares(), tsm.getCantLugares());
+            //aquí va la solución que propongamos
+            
         } else {
             JOptionPane.showMessageDialog(rootPane, "No se puede generar una salida sin haber escogido un archivo");
         }
