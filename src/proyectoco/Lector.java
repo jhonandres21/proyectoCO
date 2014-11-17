@@ -1,7 +1,11 @@
 package proyectoco;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Lector {
 
@@ -14,57 +18,73 @@ public class Lector {
     public void reiniciarTodo() {
         archivo = null;
     }
-    
+
     //En este método se devolverá la entrada para mostrar en el JTextArea, 
     //con el fin de mostrar e identificar textualmente cada uno de las partes
     //que componen la entrada del archivo
-    public String devolverEntrada(){
-    
-        return "";
-    }
+    public TSM extraerInformacionTSM() {
+        TSM tsm = new TSM();
+        int cantLugares = 0;
+        double[] arregloTiempoDeServicio = null;
+        double[][] matrizVentanasDeTiempo = null;
+        double[][] matrizDistancias = null;
 
-    public void validarEntrada() {
-
-        String s;
-        String[] valores = new String[3000];
         int contador = 0;
 
+        BufferedReader br = null;
         try {
+            FileReader archivoTSM = new FileReader(archivo);
+            br = new BufferedReader(archivoTSM);
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (contador == 0) {
+                    cantLugares = Integer.parseInt(line);
+                    
+                    arregloTiempoDeServicio = new double[cantLugares];
+                    matrizVentanasDeTiempo = new double[cantLugares][2];
+                    matrizDistancias = new double[cantLugares][cantLugares];
+                    contador++;
+                } else {
+                    if (contador <= cantLugares) {
+                        String[] split;
+                        split = line.split(" ");
+                        arregloTiempoDeServicio[contador - 1] = Double.parseDouble(split[1]);
+                        matrizVentanasDeTiempo[contador - 1][0] = Double.parseDouble(split[2]);
+                        matrizVentanasDeTiempo[contador - 1][1] = Double.parseDouble(split[3]);
 
-            FileReader fr = new FileReader(archivo);
-            BufferedReader bf = new BufferedReader(fr);
+                        contador++;
+                    } else {
+                        String[] split;
+                        split = line.split(" ");
+                        //Escrbir diagonal como 0's
+                        for (int i = 0; i < cantLugares; i++) {
+                            matrizDistancias[i][i] = 0;
+                        }
+                        int lugar1 = Integer.parseInt(split[0]);
+                        int lugar2 = Integer.parseInt(split[1]);
 
-            while ((s = bf.readLine()) != null) {
+                        matrizDistancias[lugar1 - 1][lugar2 - 1] = Double.parseDouble(split[2]);
+                        matrizDistancias[lugar2 - 1][lugar1 - 1] = Double.parseDouble(split[2]);
 
-                //System.out.println("valores dentro del archivo: " + s);
-                valores[contador] = s;
-
-                contador++;
-            }//fin while
-
-            System.out.println("--> PRUEBA: " + valores[2342]);
-
-
-            int indice = 0;
-            String valor1 = "";
-            String valor2 = "";
-
-            for (int i = 0; i < 2342; i++) {
-
-                valor1 = valores[i];
-                valor2 = valores[i+1];
-                
-                if(valor1.equals(valor2)){
-                    System.out.println("Valor repetido: "  + valor1);
+                    }
                 }
-                
-                indice++;
             }
+            tsm.setCantLugares(cantLugares);
+            tsm.setTiempoDeServicio(arregloTiempoDeServicio);
+            tsm.setMatrizVentanasDeTiempo(matrizVentanasDeTiempo);
+            tsm.setMatrizDistancias(matrizDistancias);
 
-
-
-        } catch (Exception e) {
-            System.out.println("ERROR!: " + e.getMessage());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Archivo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Archivo.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                br.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Archivo.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-    }//fin método validar entrada   
+        return tsm;
+    }
 }
