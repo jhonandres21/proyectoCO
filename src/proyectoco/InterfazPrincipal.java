@@ -189,7 +189,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             //aquí va la solución que propongamos
             LpSolveCustom lp = new LpSolveCustom(tsm);
             lp.imprimir(lp.lpFormatContructor());
-            //lp.escribirArchivo(lp.lpFormatContructor());
+            lp.escribirArchivo(lp.lpFormatContructor());
             lp.ejecutarArchivo();
 
         } else {
