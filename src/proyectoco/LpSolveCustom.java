@@ -50,9 +50,10 @@ public class LpSolveCustom {
                 }
             }
         }
+        format += ";\n\n";
 
         //Restriccion Sumatoria Xij = 1 1<= j <= N
-        format += ";\n\n";
+        
         contador = 1;
         for (int i = 0; i < matrizDistancias.length; i++) {
             for (int j = 0; j < matrizDistancias.length; j++) {
@@ -102,12 +103,12 @@ public class LpSolveCustom {
             contador++;
         }
         //Restricción de camino único
-        for (int j = 0; j < cantLugares; j++) {
-            for (int i = 0; i < cantLugares; i++) {
+        for (int i = 0; i < cantLugares; i++) {
+            for (int j = 0; j < cantLugares; j++) {
                 if (i == j) {
                     continue;
                 } else {
-                    format += "b" + (j + 1) + " >= " + "b" + (i + 1) + " + " + (arregloTiempoDeServicio[i] + matrizDistancias[i][j]) + " - " + 999999999 + " + " + 999999999 + " * " + "x" + (i + 1) + (j + 1) + ";";
+                    format += "b" + (j + 1) + " >= " + "b" + (i + 1) + " + " + (arregloTiempoDeServicio[j] + matrizDistancias[i][j]) + " - " + 999999999 + " + " + 999999999 + " * " + "x" + (i + 1) + (j + 1) + ";";
                     format += "\n";
                 }
             }
@@ -117,11 +118,6 @@ public class LpSolveCustom {
         for (int i = 0; i < cantLugares; i++) {
             format += matrizVentanasDeTiempo[i][0] + " <= " + "b" + (i + 1) + " <= " + matrizVentanasDeTiempo[i][1] + ";";
             format += "\n";
-        }
-
-        //Restricciones bi;
-        for (int i = 0; i < cantLugares; i++) {
-            format += "b" + (i + 1) + " >= 0;\n";
         }
 
         format += "\n";
