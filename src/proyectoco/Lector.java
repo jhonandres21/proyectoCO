@@ -64,7 +64,6 @@ public class Lector {
                         int lugar2 = Integer.parseInt(split[1]);
 
                         matrizDistancias[lugar1 - 1][lugar2 - 1] = Double.parseDouble(split[2]);
-                        matrizDistancias[lugar2 - 1][lugar1 - 1] = Double.parseDouble(split[2]);
 
                     }
                 }

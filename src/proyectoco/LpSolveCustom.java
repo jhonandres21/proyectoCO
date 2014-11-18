@@ -56,7 +56,7 @@ public class LpSolveCustom {
                     continue;
                 } else {
                     if (contador == cantLugares - 1) {
-                        format += "x" + (i + 1) + (j + 1) + " = 1";
+                        format += "x" + (i + 1) + (j + 1) + " = 1;";
                         contador = 1;
                     } else {
                         format += "x" + (i + 1) + (j + 1) + " + ";
@@ -75,7 +75,7 @@ public class LpSolveCustom {
                     continue;
                 } else {
                     if (contador == cantLugares - 1) {
-                        format += "x" + (i + 1) + (j + 1) + " = 1";
+                        format += "x" + (i + 1) + (j + 1) + " = 1;";
                         contador = 1;
                     } else {
                         format += "x" + (i + 1) + (j + 1) + " + ";
@@ -85,60 +85,91 @@ public class LpSolveCustom {
             }
             format += "\n";
         }
+        //Sin retroceder
+        contador = 1;
+        for (int i = 0; i < cantLugares; i++) {
+            for (int j = contador; j <= cantLugares; j++) {
+                if (contador == j) {
+                    continue;
+                } else {
+                    format += "x" + contador + j + " + " + "x" + j + contador + " = 1;\n";
+                }
+        }
+        contador++;
+    }
+    /*int inicial = -1;
+     for (int i = 0; i < matrizVentanasDeTiempo.length; i++) {
+     if (matrizVentanasDeTiempo[i][0] == 0) {
+     inicial = i;
+     }
+     }
 
-        /*int inicial = -1;
-         for (int i = 0; i < matrizVentanasDeTiempo.length; i++) {
-         if (matrizVentanasDeTiempo[i][0] == 0) {
-         inicial = i;
-         }
-         }
+     contador = 1;
+     for (int i = 0; i < matrizDistancias.length; i++) {
+     for (int j = 0; j < matrizDistancias.length; j++) {
 
-         contador = 1;
-         for (int i = 0; i < matrizDistancias.length; i++) {
-         for (int j = 0; j < matrizDistancias.length; j++) {
+     }
+     }
+     */
+    //Restricción de camino único
+    for (int j = 0;
+    j< cantLugares ;
+    j
 
-         }
-         }
-         */
-        //Restricción de camino único
-        for (int j = 0; j < cantLugares; j++) {
+    
+        ++) {
             for (int i = 0; i < cantLugares; i++) {
-                if (i == j) {
-                    continue;
-                } else {
-                    format += "b" + (j + 1) + " >= " + "b" + (i + 1) + " + (" + arregloTiempoDeServicio[i] + " + " + matrizDistancias[i][j] + ")" + " - " + 999999999 + "(" + " 1 - " + "x" + (i + 1) + (j + 1) + ");";
-                    format += "\n";
-                }
+            if (i == j) {
+                continue;
+            } else {
+                format += "b" + (j + 1) + " >= " + "b" + (i + 1) + " + (" + arregloTiempoDeServicio[i] + " + " + matrizDistancias[i][j] + ")" + " - " + 999999999 + "(" + " 1 - " + "x" + (i + 1) + (j + 1) + ");";
+                format += "\n";
             }
         }
-
-        //Restriccion Ventanas de Tiempo
-        for (int i = 0; i < cantLugares; i++) {
-            format += matrizVentanasDeTiempo[i][0] + " <= " + "b" + (i + 1) + " <= " + matrizVentanasDeTiempo[i][1] + ";";
-            format += "\n";
-        }
-
-        //Definicion bi;
-        for (int i = 0; i < cantLugares; i++) {
-            format += "b" + (i + 1) + " >= 0;\n";
-        }
-
-        //Restricciones obvias
-        format += "bin ";
-        for (int i = 0; i < matrizDistancias.length; i++) {
-            for (int j = 0; j < matrizDistancias.length; j++) {
-                if (i == j) {
-                    continue;
-                } else {
-                    format += "x" + (i + 1) + (j + 1) + ", ";
-                }
-            }
-        }
-
-        return format;
     }
 
-    public void escribirArchivo(String formato) {
+    //Restriccion Ventanas de Tiempo
+    for (int i = 0;
+    i< cantLugares ;
+    i
+
+    
+        ++) {
+            format += matrizVentanasDeTiempo[i][0] + " <= " + "b" + (i + 1) + " <= " + matrizVentanasDeTiempo[i][1] + ";";
+        format += "\n";
+    }
+
+    //Definicion bi;
+    for (int i = 0;
+    i< cantLugares ;
+    i
+
+    
+        ++) {
+            format += "b" + (i + 1) + " >= 0;\n";
+    }
+
+    //Restricciones obvias
+    format += "bin " ;
+    for (int i = 0;
+    i< matrizDistancias.length ;
+    i
+
+    
+        ++) {
+            for (int j = 0; j < matrizDistancias.length; j++) {
+            if (i == j) {
+                continue;
+            } else {
+                format += "x" + (i + 1) + (j + 1) + ", ";
+            }
+        }
+    }
+
+    return format ;
+}
+
+public void escribirArchivo(String formato) {
 
         try {
             //esta ruta toca ponerla absoluta porque estamos trabajando en otro directorio
