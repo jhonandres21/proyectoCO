@@ -30,21 +30,26 @@ public class LpSolveCustom {
         //Funcion Obj
         format += "min: ";
         int contador = 1;
-        for (int i = 0; i < matrizDistancias.length; i++) {
-            for (int j = 0; j < matrizDistancias.length; j++) {
+        
+        double normalizador = 1.0;
+        
+        normalizador = 1.0 / (cantLugares-1);
+        
+        for (int j = 0; j < matrizDistancias.length; j++) {
+            for (int i = 0; i < matrizDistancias.length; i++) {
                 if (i == j) {
                     continue;
                 } else {
                     if (contador == cantLugares - 1) {
-                        if (i != contador) {
-                            format += (arregloTiempoDeServicio[i] + matrizDistancias[i][j]) + " * x" + (i + 1) + (j + 1) + " + ";
+                        if (j != contador) {
+                            format += matrizDistancias[i][j] + " * x" + (i + 1) + (j + 1) + " + " + normalizador + "Te" + (j+1) + " + " + (normalizador * arregloTiempoDeServicio[j]) + " + ";
                             contador = 1;
                         } else {
-                            format += (arregloTiempoDeServicio[i] + matrizDistancias[i][j]) + " * x" + (i + 1) + (j + 1);
+                            format += matrizDistancias[i][j] + " * x" + (i + 1) + (j + 1) + " + " + normalizador + "Te" + (j+1) + " + " + (normalizador * arregloTiempoDeServicio[j]);
                             contador = 1;
                         }
                     } else {
-                        format += (arregloTiempoDeServicio[i] + matrizDistancias[i][j]) + " * x" + (i + 1) + (j + 1) + " + ";
+                        format += matrizDistancias[i][j] + " * x" + (i + 1) + (j + 1) + " + " + normalizador + "Te" + (j+1)+ " + "  + (normalizador * arregloTiempoDeServicio[j]) + " + ";
                         contador++;
                     }
                 }
@@ -53,7 +58,6 @@ public class LpSolveCustom {
         format += ";\n\n";
 
         //Restriccion Sumatoria Xij = 1 1<= j <= N
-        
         contador = 1;
         for (int i = 0; i < matrizDistancias.length; i++) {
             for (int j = 0; j < matrizDistancias.length; j++) {
@@ -108,7 +112,7 @@ public class LpSolveCustom {
                 if (i == j) {
                     continue;
                 } else {
-                    format += "b" + (j + 1) + " >= " + "b" + (i + 1) + " + " + (arregloTiempoDeServicio[j] + matrizDistancias[i][j]) + " - " + 999999999 + " + " + 999999999 + " * " + "x" + (i + 1) + (j + 1) + ";";
+                    format += "b" + (j + 1) + " >= " + "b" + (i + 1) + " + " + matrizDistancias[i][j] + " + " + "Te" + (i+1) + " + " + arregloTiempoDeServicio[i] + " - " + 999999999 + " + " + 999999999 + " * " + "x" + (i + 1) + (j + 1) + ";";
                     format += "\n";
                 }
             }
@@ -116,7 +120,13 @@ public class LpSolveCustom {
 
         //Restriccion Ventanas de Tiempo
         for (int i = 0; i < cantLugares; i++) {
-            format += matrizVentanasDeTiempo[i][0] + " <= " + "b" + (i + 1) + " <= " + matrizVentanasDeTiempo[i][1] + ";";
+            format += matrizVentanasDeTiempo[i][0] + " <= " + "b" + (i + 1) + " + " + "Te" + (i+1) + ";";
+            format += "\n";
+        }
+
+        //Restriccion Ventanas de Tiempo
+        for (int i = 0; i < cantLugares; i++) {
+            format += "b" + (i + 1) + " <= " + matrizVentanasDeTiempo[i][1] + ";";
             format += "\n";
         }
 
