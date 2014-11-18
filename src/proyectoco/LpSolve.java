@@ -1,9 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package proyectoco;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  *
@@ -20,6 +20,7 @@ public class LpSolve {
     }
 
     public String lpFormatContructor() {
+
         String format = "";
         int cantLugares = tsm.getCantLugares();
         double[] arregloTiempoDeServicio = tsm.getTiempoDeServicio();
@@ -45,6 +46,7 @@ public class LpSolve {
                 }
             }
         }
+
         //Restriccion Sumatoria Xij = 1 1<= j <= N
         format += ";\n\n";
         contador = 1;
@@ -109,6 +111,7 @@ public class LpSolve {
                 }
             }
         }
+
         //Restriccion Ventanas de Tiempo
         for (int i = 0; i < cantLugares; i++) {
             format += matrizVentanasDeTiempo[i][0] + " <= " + "b" + (i + 1) + " <= " + matrizVentanasDeTiempo[i][1] + ";";
@@ -135,8 +138,24 @@ public class LpSolve {
         return format;
     }
 
+    public void escribirArchivo(String formato) {
+
+        System.out.println("entra");
+
+        try {
+            //esta ruta toca ponerla absoluta porque estamos trabajando en otro directorio
+            FileWriter fw = new FileWriter("/home/john/Escritorio/proyectoCO/src/modelo.lp");
+            fw.write(formato);
+
+            //Cierro el stream
+            fw.close();
+
+        } catch (IOException e) {
+            System.out.println("Error E/S: " + e);
+        }
+    }
+
     public void imprimir(String formato) {
         System.out.println(formato);
     }
-
 }

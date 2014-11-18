@@ -15,7 +15,8 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         archivo = new Archivo();
         lector = new Lector();
         //borrar esto después
-        jTextFieldRutaArchivo.setText("/home/juan/proyectoCO/prueba1.txt");
+        //jTextFieldRutaArchivo.setText("/home/juan/proyectoCO/prueba1.txt");
+        jTextFieldRutaArchivo.setText("/home/john/Escritorio/proyectoCO/prueba1.txt");
         lector.setArchivo(jTextFieldRutaArchivo.getText());
         tsm = lector.extraerInformacionTSM();
         
@@ -188,6 +189,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
             //aquí va la solución que propongamos
             LpSolve lp = new LpSolve(tsm);
             lp.imprimir(lp.lpFormatContructor());
+            lp.escribirArchivo(lp.lpFormatContructor());
 
         } else {
             JOptionPane.showMessageDialog(rootPane, "No se puede generar una salida sin haber escogido un archivo");
