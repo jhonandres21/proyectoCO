@@ -27,7 +27,6 @@ public class LpSolveCustom {
         double[][] matrizVentanasDeTiempo = tsm.getMatrizVentanasDeTiempo();
         double[][] matrizDistancias = tsm.getMatrizDistancias();
 
-        format += "/* model.lp */\n\n";
         //Funcion Obj
         format += "min: ";
         int contador = 1;
@@ -37,10 +36,15 @@ public class LpSolveCustom {
                     continue;
                 } else {
                     if (contador == cantLugares - 1) {
-                        format += "(" + arregloTiempoDeServicio[i] + "+" + matrizDistancias[i][j] + ")" + " x" + (i + 1) + (j + 1);
-                        contador = 1;
+                        if (i != contador) {
+                            format += (arregloTiempoDeServicio[i] + matrizDistancias[i][j]) + " * x" + (i + 1) + (j + 1) + " + ";
+                            contador = 1;
+                        } else {
+                            format += (arregloTiempoDeServicio[i] + matrizDistancias[i][j]) + " * x" + (i + 1) + (j + 1);
+                            contador = 1;
+                        }
                     } else {
-                        format += "(" + arregloTiempoDeServicio[i] + "+" + matrizDistancias[i][j] + ")" + " x" + (i + 1) + (j + 1) + " + ";
+                        format += (arregloTiempoDeServicio[i] + matrizDistancias[i][j]) + " * x" + (i + 1) + (j + 1) + " + ";
                         contador++;
                     }
                 }
@@ -94,86 +98,58 @@ public class LpSolveCustom {
                 } else {
                     format += "x" + contador + j + " + " + "x" + j + contador + " = 1;\n";
                 }
+            }
+            contador++;
         }
-        contador++;
-    }
-    /*int inicial = -1;
-     for (int i = 0; i < matrizVentanasDeTiempo.length; i++) {
-     if (matrizVentanasDeTiempo[i][0] == 0) {
-     inicial = i;
-     }
-     }
-
-     contador = 1;
-     for (int i = 0; i < matrizDistancias.length; i++) {
-     for (int j = 0; j < matrizDistancias.length; j++) {
-
-     }
-     }
-     */
-    //Restricción de camino único
-    for (int j = 0;
-    j< cantLugares ;
-    j
-
-    
-        ++) {
+        //Restricción de camino único
+        for (int j = 0; j < cantLugares; j++) {
             for (int i = 0; i < cantLugares; i++) {
-            if (i == j) {
-                continue;
-            } else {
-                format += "b" + (j + 1) + " >= " + "b" + (i + 1) + " + (" + arregloTiempoDeServicio[i] + " + " + matrizDistancias[i][j] + ")" + " - " + 999999999 + "(" + " 1 - " + "x" + (i + 1) + (j + 1) + ");";
-                format += "\n";
+                if (i == j) {
+                    continue;
+                } else {
+                    format += "b" + (j + 1) + " >= " + "b" + (i + 1) + " + " + (arregloTiempoDeServicio[i] + matrizDistancias[i][j]) + " - " + 999999999 + " + " + 999999999 + " * " + "x" + (i + 1) + (j + 1) + ";";
+                    format += "\n";
+                }
             }
         }
-    }
 
-    //Restriccion Ventanas de Tiempo
-    for (int i = 0;
-    i< cantLugares ;
-    i
-
-    
-        ++) {
+        //Restriccion Ventanas de Tiempo
+        for (int i = 0; i < cantLugares; i++) {
             format += matrizVentanasDeTiempo[i][0] + " <= " + "b" + (i + 1) + " <= " + matrizVentanasDeTiempo[i][1] + ";";
-        format += "\n";
-    }
+            format += "\n";
+        }
 
-    //Definicion bi;
-    for (int i = 0;
-    i< cantLugares ;
-    i
-
-    
-        ++) {
+        //Restricciones bi;
+        for (int i = 0; i < cantLugares; i++) {
             format += "b" + (i + 1) + " >= 0;\n";
-    }
+        }
 
-    //Restricciones obvias
-    format += "bin " ;
-    for (int i = 0;
-    i< matrizDistancias.length ;
-    i
-
-    
-        ++) {
+        format += "\n";
+        //Definiciones xij
+        contador = 1;
+        format += "bin ";
+        for (int i = 0; i < matrizDistancias.length; i++) {
             for (int j = 0; j < matrizDistancias.length; j++) {
-            if (i == j) {
-                continue;
-            } else {
-                format += "x" + (i + 1) + (j + 1) + ", ";
+                if (i == j) {
+                    continue;
+                } else {
+                    if (i == matrizDistancias.length - 1 && j == matrizDistancias.length - 2) {
+                        format += "x" + (i + 1) + (j + 1) + ";";
+                    } else {
+                        format += "x" + (i + 1) + (j + 1) + ", ";
+                    }
+                }
             }
         }
+
+        return format;
     }
 
-    return format ;
-}
-
-public void escribirArchivo(String formato) {
+    public void escribirArchivo(String formato) {
 
         try {
             //esta ruta toca ponerla absoluta porque estamos trabajando en otro directorio
-            FileWriter fw = new FileWriter("modelo.lp");
+            FileWriter fw = new FileWriter("/home/juan/proyectoCO/modelo.lp");
             fw.write(formato);
 
             //Cierro el stream
@@ -188,9 +164,9 @@ public void escribirArchivo(String formato) {
     public void ejecutarArchivo() {
 
         try {
-            
+
             LpSolve solver;
-            solver = LpSolve.readLp("modelo.lp", NORMAL, "Test 1");
+            solver = LpSolve.readLp("/home/juan/proyectoCO/modelo.lp", NORMAL, "Test 1");
             solver.solve();
 
             // print solution
