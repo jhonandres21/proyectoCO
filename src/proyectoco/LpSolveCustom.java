@@ -101,7 +101,7 @@ public class LpSolveCustom {
                 if (contador == j) {
                     continue;
                 } else {
-                    format += "x" + contador + j + " + " + "x" + j + contador + " = 1;\n";
+                    format += "x" + contador + j + " + " + "x" + j + contador + " <= 1;\n";
                 }
             }
             contador++;
@@ -109,9 +109,7 @@ public class LpSolveCustom {
         //Restricción de camino único
         for (int i = 0; i < cantLugares; i++) {
             for (int j = 0; j < cantLugares; j++) {
-                if (i == j) {
-                    continue;
-                } else {
+                if (i != j && j !=0) {
                     format += "b" + (j + 1) + " >= " + "b" + (i + 1) + " + " + matrizDistancias[i][j] + " + " + "Te" + (i+1) + " + " + arregloTiempoDeServicio[i] + " - " + 999999999 + " + " + 999999999 + " * " + "x" + (i + 1) + (j + 1) + ";";
                     format += "\n";
                 }
@@ -180,7 +178,7 @@ public class LpSolveCustom {
             double[] var = solver.getPtrVariables();
 
             for (int i = 0; i < var.length; i++) {
-                System.out.println("Value of var[" + i + "] = " + var[i]);
+                System.out.println(solver.getColName(i) + " = " + var[i]);
             }
             // delete the problem and free memory
             solver.deleteLp();
