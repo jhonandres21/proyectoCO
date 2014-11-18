@@ -1,19 +1,19 @@
 package proyectoco;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
+import lpsolve.*;
+import static lpsolve.LpSolve.NORMAL;
 
 /**
  *
  * @author juan
  */
-public class LpSolve {
+public class LpSolveCustom {
 
     TSM tsm;
 
-    public LpSolve(TSM tsm) {
+    public LpSolveCustom(TSM tsm) {
 
         this.tsm = tsm;
 
@@ -140,11 +140,9 @@ public class LpSolve {
 
     public void escribirArchivo(String formato) {
 
-        System.out.println("entra");
-
         try {
             //esta ruta toca ponerla absoluta porque estamos trabajando en otro directorio
-            FileWriter fw = new FileWriter("/home/john/Escritorio/proyectoCO/src/modelo.lp");
+            FileWriter fw = new FileWriter("modelo.lp");
             fw.write(formato);
 
             //Cierro el stream
@@ -152,6 +150,30 @@ public class LpSolve {
 
         } catch (IOException e) {
             System.out.println("Error E/S: " + e);
+        } catch (Exception ex) {
+        }
+    }
+
+    public void ejecutarArchivo() {
+
+        try {
+            
+            LpSolve solver;
+            solver = LpSolve.readLp("modelo.lp", NORMAL, "Test 1");
+            solver.solve();
+
+            // print solution
+            System.out.println("Value of objective function: " + solver.getObjective());
+            double[] var = solver.getPtrVariables();
+
+            for (int i = 0; i < var.length; i++) {
+                System.out.println("Value of var[" + i + "] = " + var[i]);
+            }
+            // delete the problem and free memory
+            solver.deleteLp();
+
+        } catch (LpSolveException ex) {
+            System.out.println("Error: " + ex);
         }
     }
 

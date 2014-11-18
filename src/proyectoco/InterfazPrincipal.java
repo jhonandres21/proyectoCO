@@ -187,9 +187,10 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         if (!jTextFieldRutaArchivo.getText().equals("")) {
 
             //aquí va la solución que propongamos
-            LpSolve lp = new LpSolve(tsm);
+            LpSolveCustom lp = new LpSolveCustom(tsm);
             lp.imprimir(lp.lpFormatContructor());
-            lp.escribirArchivo(lp.lpFormatContructor());
+            //lp.escribirArchivo(lp.lpFormatContructor());
+            lp.ejecutarArchivo();
 
         } else {
             JOptionPane.showMessageDialog(rootPane, "No se puede generar una salida sin haber escogido un archivo");
