@@ -118,15 +118,15 @@ public class LpSolveCustom {
 
         //Restriccion Ventanas de Tiempo
         for (int i = 0; i < cantLugares; i++) {
-            format += matrizVentanasDeTiempo[i][0] + " <= " + "b" + (i + 1) + " + " + "Te" + (i+1) + ";";
+            format += matrizVentanasDeTiempo[i][0] + " <= " + "b" + (i + 1) + " + " + "Te" + (i+1)+ " <= " + matrizVentanasDeTiempo[i][1] + ";";
             format += "\n";
         }
 
-        //Restriccion Ventanas de Tiempo
+        /*//Restriccion Ventanas de Tiempo
         for (int i = 0; i < cantLugares; i++) {
             format += "b" + (i + 1) + " <= " + matrizVentanasDeTiempo[i][1] + ";";
             format += "\n";
-        }
+        }*/
 
         format += "\n";
         //Definiciones xij
