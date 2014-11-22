@@ -15,15 +15,16 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         archivo = new Archivo();
         lector = new Lector();
         //borrar esto después
-        jTextFieldRutaArchivo.setText("/home/juan/GitProjects/proyectoCO/prueba2.txt");
+        jTextFieldRutaArchivo.setText("C:\\Users\\Juan Olaya O\\Documents\\GitHub\\proyectoCO\\prueba1.txt");
+        //jTextFieldRutaArchivo.setText("/home/juan/GitProjects/proyectoCO/prueba2.txt");
         //jTextFieldRutaArchivo.setText("/home/john/Escritorio/proyectoCO/prueba1.txt");
         lector.setArchivo(jTextFieldRutaArchivo.getText());
         tsm = lector.extraerInformacionTSM();
-        
+
         String arreglo = tsm.imprimirArreglo();
-            String matrizVentaTiempo = tsm.imprimirMatriz("Ventanas de Tiempo", tsm.getMatrizVentanasDeTiempo(), tsm.getCantLugares(), 2);
-            String matrizDistancias = tsm.imprimirMatriz("Distancias", tsm.getMatrizDistancias(), tsm.getCantLugares(), tsm.getCantLugares());
-        
+        String matrizVentaTiempo = tsm.imprimirMatriz("Ventanas de Tiempo", tsm.getMatrizVentanasDeTiempo(), tsm.getCantLugares(), 2);
+        String matrizDistancias = tsm.imprimirMatriz("Distancias", tsm.getMatrizDistancias(), tsm.getCantLugares(), tsm.getCantLugares());
+
         jTextAreaEntrada.setText(arreglo + matrizVentaTiempo + matrizDistancias);
         // Borrar hasta aquí
     }
