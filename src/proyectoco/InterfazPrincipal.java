@@ -15,7 +15,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         archivo = new Archivo();
         lector = new Lector();
         //borrar esto después
-        jTextFieldRutaArchivo.setText("C:\\Users\\Juan Olaya O\\Documents\\GitHub\\proyectoCO\\prueba1.txt");
+        /*jTextFieldRutaArchivo.setText("C:\\Users\\Juan Olaya O\\Documents\\GitHub\\proyectoCO\\prueba1.txt");
         //jTextFieldRutaArchivo.setText("/home/juan/GitProjects/proyectoCO/prueba2.txt");
         //jTextFieldRutaArchivo.setText("/home/john/Escritorio/proyectoCO/prueba1.txt");
         lector.setArchivo(jTextFieldRutaArchivo.getText());
@@ -26,7 +26,7 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         String matrizDistancias = tsm.imprimirMatriz("Distancias", tsm.getMatrizDistancias(), tsm.getCantLugares(), tsm.getCantLugares());
 
         jTextAreaEntrada.setText(arreglo + matrizVentaTiempo + matrizDistancias);
-        // Borrar hasta aquí
+        // Borrar hasta aquí*/
     }
 
     @SuppressWarnings("unchecked")

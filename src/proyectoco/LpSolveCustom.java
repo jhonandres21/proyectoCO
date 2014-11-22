@@ -176,7 +176,7 @@ public class LpSolveCustom {
         try {
             //esta ruta toca ponerla absoluta porque estamos trabajando en otro directorio
             //FileWriter fw = new FileWriter("/home/juan/GitProjects/proyectoCO/modelo1.lp");
-            FileWriter fw = new FileWriter("C:\\Users\\Juan Olaya O\\Documents\\GitHub\\proyectoCO\\modelo.lp");
+            FileWriter fw = new FileWriter("/home/john/Escritorio/modelo.lp");
             fw.write(formato);
 
             //Cierro el stream
@@ -194,7 +194,7 @@ public class LpSolveCustom {
 
             LpSolve solver;
             //solver = LpSolve.readLp("/home/juan/GitProjects/proyectoCO/modelo1.lp", NORMAL, "Test 1");
-            solver = LpSolve.readLp("C:\\Users\\Juan Olaya O\\Documents\\GitHub\\proyectoCO\\modelo.lp", NORMAL, "Test 1");
+            solver = LpSolve.readLp("/home/john/Escritorio/modelo.lp", NORMAL, "Test 1");
             solver.solve();
 
             // print solution
