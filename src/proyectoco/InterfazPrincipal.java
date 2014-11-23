@@ -1,7 +1,6 @@
 package proyectoco;
 
 import javax.swing.JOptionPane;
-import lpsolve.*;
 
 public class InterfazPrincipal extends javax.swing.JFrame {
 
@@ -16,17 +15,17 @@ public class InterfazPrincipal extends javax.swing.JFrame {
         lector = new Lector();
         //borrar esto después
         /*jTextFieldRutaArchivo.setText("C:\\Users\\Juan Olaya O\\Documents\\GitHub\\proyectoCO\\prueba1.txt");
-        //jTextFieldRutaArchivo.setText("/home/juan/GitProjects/proyectoCO/prueba2.txt");
-        //jTextFieldRutaArchivo.setText("/home/john/Escritorio/proyectoCO/prueba1.txt");
-        lector.setArchivo(jTextFieldRutaArchivo.getText());
-        tsm = lector.extraerInformacionTSM();
+         //jTextFieldRutaArchivo.setText("/home/juan/GitProjects/proyectoCO/prueba2.txt");
+         //jTextFieldRutaArchivo.setText("/home/john/Escritorio/proyectoCO/prueba1.txt");
+         lector.setArchivo(jTextFieldRutaArchivo.getText());
+         tsm = lector.extraerInformacionTSM();
 
-        String arreglo = tsm.imprimirArreglo();
-        String matrizVentaTiempo = tsm.imprimirMatriz("Ventanas de Tiempo", tsm.getMatrizVentanasDeTiempo(), tsm.getCantLugares(), 2);
-        String matrizDistancias = tsm.imprimirMatriz("Distancias", tsm.getMatrizDistancias(), tsm.getCantLugares(), tsm.getCantLugares());
+         String arreglo = tsm.imprimirArreglo();
+         String matrizVentaTiempo = tsm.imprimirMatriz("Ventanas de Tiempo", tsm.getMatrizVentanasDeTiempo(), tsm.getCantLugares(), 2);
+         String matrizDistancias = tsm.imprimirMatriz("Distancias", tsm.getMatrizDistancias(), tsm.getCantLugares(), tsm.getCantLugares());
 
-        jTextAreaEntrada.setText(arreglo + matrizVentaTiempo + matrizDistancias);
-        // Borrar hasta aquí*/
+         jTextAreaEntrada.setText(arreglo + matrizVentaTiempo + matrizDistancias);
+         // Borrar hasta aquí*/
     }
 
     @SuppressWarnings("unchecked")
@@ -184,15 +183,15 @@ public class InterfazPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemSeleccionarArchivoActionPerformed
 
     private void botonSolucionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSolucionarActionPerformed
-
+        
         if (!jTextFieldRutaArchivo.getText().equals("")) {
 
             //aquí va la solución que propongamos
             LpSolveCustom lp = new LpSolveCustom(tsm);
-            lp.imprimir(lp.lpFormatContructor());
+            //lp.imprimir(lp.lpFormatContructor());
             lp.escribirArchivo(lp.lpFormatContructor());
-            lp.ejecutarArchivo();
-
+            
+            jTextAreaSolucion.setText(lp.ejecutarArchivo());
         } else {
             JOptionPane.showMessageDialog(rootPane, "No se puede generar una salida sin haber escogido un archivo");
         }

@@ -2,6 +2,7 @@ package proyectoco;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import lpsolve.*;
 import static lpsolve.LpSolve.NORMAL;
 
@@ -174,6 +175,7 @@ public class LpSolveCustom {
     public void escribirArchivo(String formato) {
 
         try {
+            
             //esta ruta toca ponerla absoluta porque estamos trabajando en otro directorio
             //FileWriter fw = new FileWriter("/home/juan/GitProjects/proyectoCO/modelo1.lp");
             //FileWriter fw = new FileWriter("/home/john/Escritorio/modelo.lp");
@@ -189,33 +191,73 @@ public class LpSolveCustom {
         }
     }
 
-    public void ejecutarArchivo() {
+    public String ejecutarArchivo() {
+        LpSolve solver = null;
+        String respuesta = "";
+        ArrayList<String> recorrido = new ArrayList();
+        double esperaTotal = 0;
 
         try {
 
-            LpSolve solver;
             //solver = LpSolve.readLp("/home/juan/GitProjects/proyectoCO/modelo1.lp", NORMAL, "Test 1");
             //solver = LpSolve.readLp("/home/john/Escritorio/modelo.lp", NORMAL, "Test 1");
             solver = LpSolve.readLp("C:\\Users\\Juan Olaya O\\Documents\\GitHub\\proyectoCO\\modelo.lp", NORMAL, "Test 1");
             solver.solve();
 
             // print solution
-            System.out.println("Value of objective function: " + solver.getObjective());
-            double[] var = solver.getPtrVariables();
-            int j = 1;
-            for (int i = 0; i < var.length; i++) {
-                System.out.println(solver.getColName(j) + " = " + var[i]);
-                j++;
-            }
-            // delete the problem and free memory
-            solver.deleteLp();
+            if (solver.getObjective() == 1.0E30) {
+                respuesta += "No existe solución.\nEl problema con los parámetros actuales NO TIENE SOLUCIÓN FACTIBLE";
+            } else {
+                respuesta += "La solucion encontrada fue: " + solver.getObjective();
+                respuesta += "\n\n";
+                System.out.println("La solucion encontrada fue: " + solver.getObjective());
+                double[] var = solver.getPtrVariables();
+                int j = 1;
+                for (int i = 0; i < var.length; i++) {
+                    System.out.println(solver.getColName(j) + " = " + var[i]);
+                    if (solver.getColName(j).startsWith("Te")) {
+                        esperaTotal += var[i];
+                    } else if (solver.getColName(j).startsWith("x") && var[i] == 1) {
+                        recorrido.add(solver.getColName(j));
+                    }
+                    j++;
+                }
 
+                respuesta += "La ruta encontrada fue:\n" + buscarRuta(recorrido) + "\n\n";
+                respuesta += "El tiempo de espera total fue: " + esperaTotal + "\n\n";
+
+                // delete the problem and free memory
+                solver.deleteLp();
+            }
         } catch (LpSolveException ex) {
             System.out.println("Error: " + ex);
         }
+
+        return respuesta;
     }
 
-    public void imprimir(String formato) {
-        System.out.println(formato);
+    public String buscarRuta(ArrayList<String> recorrido) {
+        String ruta = "";
+        String inicio = "1";
+        while (!recorrido.isEmpty()) {
+            for (int i = 0; i < recorrido.size(); i++) {
+                if (recorrido.get(i).substring(1, 2).equals(inicio)) {
+                    if ((recorrido.size() - 1) == 0) {
+                        ruta += inicio + " -> 1";
+                    } else {
+                        ruta += inicio + " -> ";
+                    }
+                    inicio = recorrido.get(i).substring(2);
+                    recorrido.remove(i);
+                    break;
+                }
+            }
+        }
+
+        return ruta;
+    }
+
+    public void imprimir(String string) {
+        System.out.println(string);
     }
 }
